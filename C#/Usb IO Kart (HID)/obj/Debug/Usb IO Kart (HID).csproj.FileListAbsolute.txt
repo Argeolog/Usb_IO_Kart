@@ -1,0 +1,22 @@
+C:\Users\Filosoft\AppData\Local\Temporary Projects\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe.config
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe.config
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).csprojResolveAssemblyReference.cache
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart__HID_.Properties.Resources.resources
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).csproj.GenerateResource.Cache
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).pdb
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).exe
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).pdb
+E:\HDS SDK\C#\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart.Usb_IO_Kart.resources
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe.config
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).pdb
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).csproj.AssemblyReference.cache
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart.Usb_IO_Kart.resources
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart__HID_.Properties.Resources.resources
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).csproj.GenerateResource.cache
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).csproj.CoreCompileInputs.cache
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).csproj.CopyComplete
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).exe
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).pdb
+E:\HDS SDK\Usb IO Kart (HID)\C#\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).csproj.SuggestedBindingRedirects.cache

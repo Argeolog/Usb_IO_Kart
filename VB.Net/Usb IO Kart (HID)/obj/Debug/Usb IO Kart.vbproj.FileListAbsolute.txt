@@ -1,0 +1,10 @@
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart.exe.config
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart.exe
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart.pdb
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart.xml
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb_IO_Kart.Resources.resources
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb_IO_Kart.Usb_Kart_Yonetim_Formu.resources
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart.vbproj.GenerateResource.Cache
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart.exe
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart.xml
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart.pdb

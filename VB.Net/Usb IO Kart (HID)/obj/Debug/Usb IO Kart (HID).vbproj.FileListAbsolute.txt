@@ -1,0 +1,33 @@
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb_IO_Kart.Resources.resources
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb_IO_Kart.Usb_IO_Kart.resources
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart (HID).vbproj.GenerateResource.Cache
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart (HID).exe.config
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart (HID).exe
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart (HID).pdb
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\bin\Debug\Usb IO Kart (HID).xml
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart (HID).vbprojResolveAssemblyReference.cache
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart (HID).exe
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart (HID).xml
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\HDS Otomasyon Genel SDK\obj\Debug\Usb IO Kart (HID).pdb
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe.config
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).exe
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).xml
+C:\Users\Ertan-Dev\Desktop\HDS Otomasyon Genel SDK\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).pdb
+C:\Users\Ertan-Dev\Desktop\Usb IO Kart (HID)\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe.config
+C:\Users\Ertan-Dev\Desktop\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).exe
+C:\Users\Ertan-Dev\Desktop\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).xml
+C:\Users\Ertan-Dev\Desktop\Usb IO Kart (HID)\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).pdb
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe.config
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).pdb
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).xml
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.AssemblyReference.cache
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.SuggestedBindingRedirects.cache
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart.Resources.resources
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart.Usb_IO_Kart.resources
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.GenerateResource.cache
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.CoreCompileInputs.cache
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.CopyComplete
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).exe
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).xml
+D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).pdb
