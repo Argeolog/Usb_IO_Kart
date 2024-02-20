@@ -31,3 +31,16 @@ D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)
 D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).exe
 D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).xml
 D:\HDS Otomasyon\Tetik Cihazları\Usb Tetik Cihazı\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).pdb
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe.config
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).exe
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).pdb
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\bin\Debug\Usb IO Kart (HID).xml
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.AssemblyReference.cache
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart.Resources.resources
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb_IO_Kart.Usb_IO_Kart.resources
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.GenerateResource.cache
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).vbproj.CoreCompileInputs.cache
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).exe
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).xml
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO Kart (HID).pdb
+D:\HDS Otomasyon\Tetik Cihazlari\USB\SDK\VB.Net\Usb IO Kart (HID)\obj\Debug\Usb IO K.570EAC4A.Up2Date

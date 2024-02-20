@@ -3,10 +3,23 @@ Imports System.Text
 
 Public Class Usb_IO_Kart
 
+
+
+
+
     Dim Usb_1 As New UsbHidPort
     Dim Usb_2 As New UsbHidPort
     ' Projenin Target CPU x86 Olmalıdır. Çünkü usblibrary x86 Desteklemektedir.
-
+    Enum Cihaz_Komut
+        CihazTest = 206
+        ReadSerialNo = 207
+        WriteSerialNo = 208
+        ReadDeviceModel = 209
+        ParameterWrite = 210
+        ResetDevice = 211
+        DeviceBootMode = 212
+        ReadDeviceFirmware = 213
+    End Enum
     Protected Overloads Overrides Sub OnHandleCreated(ByVal e As EventArgs)
         MyBase.OnHandleCreated(e)
         Usb_1.RegisterHandle(Handle)
@@ -61,76 +74,95 @@ Public Class Usb_IO_Kart
         Popup.Dispose()
     End Sub
     Private Sub Usb1_Data_Oku(ByVal senders As System.Object, ByVal Argsc As UsbLibrary.DataRecievedEventArgs)
-        Dim GelenData As String = ""
-        If InvokeRequired Then
-            Invoke(New DataRecievedEventHandler(AddressOf Usb1_Data_Oku), New Object() {senders, Argsc})
-        Else
-            Try
+        Try
+            Dim GelenData As String = ""
+            If InvokeRequired Then
+                Invoke(New DataRecievedEventHandler(AddressOf Usb1_Data_Oku), New Object() {senders, Argsc})
+            Else
 
-
-                Dim GelenByteDizesi(8) As Byte
+                Dim GelenByteDizesi(65) As Byte
                 GelenByteDizesi = Argsc.data
-                For i = 1 To 8
-                    GelenData = GelenData & GelenByteDizesi(i).ToString()
-                Next
+                If GelenByteDizesi(1) = 35 Then ' # ise...
+
+                    For i = 2 To 64
+                        Dim Dt As Byte = GelenByteDizesi(i)
+                        If Dt = 0 Then
+                            Exit For
+                        End If
+                        GelenData &= Chr(Dt)
+                    Next
+
+                    If GelenData.Contains("|") AndAlso GelenData.Length = 13 Then
+                        Usb1_Role_1_Suresi_Text.Text = CInt(GelenData.Substring(1, 3))
+                        Usb1_Role_2_Suresi_Text.Text = CInt(GelenData.Substring(4, 3))
+                        Usb1_Role_3_Suresi_Text.Text = CInt(GelenData.Substring(7, 3))
+                        Usb1_Role_4_Suresi_Text.Text = CInt(GelenData.Substring(10, 3))
+
+                    Else
+                        MsgBox(GelenData)
+                    End If
 
 
 
-            Catch ex As Exception
-
-            End Try
-
-            If GelenData.Length = 8 Then
-                If GelenData.Substring(0, 1) = "1" Then
-                    Usb1_input_1_Picture.Image = My.Resources.Connect
                 Else
-                    Usb1_input_1_Picture.Image = My.Resources.Disconnect
-                End If
 
-                If GelenData.Substring(1, 1) = "1" Then
-                    Usb1_input_2_Picture.Image = My.Resources.Connect
-                Else
-                    Usb1_input_2_Picture.Image = My.Resources.Disconnect
-                End If
+                    For i = 1 To 8
+                        GelenData &= GelenByteDizesi(i).ToString()
+                    Next
+                    If GelenData.Length = 8 Then
+                        If GelenData.Substring(0, 1) = "1" Then
+                            Usb1_input_1_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_input_1_Picture.Image = My.Resources.Disconnect
+                        End If
 
-                If GelenData.Substring(2, 1) = "1" Then
-                    Usb1_input_3_Picture.Image = My.Resources.Connect
-                Else
-                    Usb1_input_3_Picture.Image = My.Resources.Disconnect
-                End If
-                If GelenData.Substring(3, 1) = "1" Then
-                    Usb1_input_4_Picture.Image = My.Resources.Connect
-                Else
-                    Usb1_input_4_Picture.Image = My.Resources.Disconnect
-                End If
+                        If GelenData.Substring(1, 1) = "1" Then
+                            Usb1_input_2_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_input_2_Picture.Image = My.Resources.Disconnect
+                        End If
 
-                If GelenData.Substring(4, 1) = "1" Then
-                    Usb1_Role_1_Picture.Image = My.Resources.Connect
-                Else
-                    Usb1_Role_1_Picture.Image = My.Resources.Disconnect
-                End If
+                        If GelenData.Substring(2, 1) = "1" Then
+                            Usb1_input_3_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_input_3_Picture.Image = My.Resources.Disconnect
+                        End If
+                        If GelenData.Substring(3, 1) = "1" Then
+                            Usb1_input_4_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_input_4_Picture.Image = My.Resources.Disconnect
+                        End If
 
-                If GelenData.Substring(5, 1) = "1" Then
-                    Usb1_Role_2_Picture.Image = My.Resources.Connect
-                Else
-                    Usb1_Role_2_Picture.Image = My.Resources.Disconnect
-                End If
+                        If GelenData.Substring(4, 1) = "1" Then
+                            Usb1_Role_1_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_Role_1_Picture.Image = My.Resources.Disconnect
+                        End If
 
-                If GelenData.Substring(6, 1) = "1" Then
-                    Usb1_Role_3_Picture.Image = My.Resources.Connect
-                Else
-                    Usb1_Role_3_Picture.Image = My.Resources.Disconnect
-                End If
+                        If GelenData.Substring(5, 1) = "1" Then
+                            Usb1_Role_2_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_Role_2_Picture.Image = My.Resources.Disconnect
+                        End If
 
-                If GelenData.Substring(7, 1) = "1" Then
-                    Usb1_Role_4_Picture.Image = My.Resources.Connect
-                Else
-                    Usb1_Role_4_Picture.Image = My.Resources.Disconnect
-                End If
+                        If GelenData.Substring(6, 1) = "1" Then
+                            Usb1_Role_3_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_Role_3_Picture.Image = My.Resources.Disconnect
+                        End If
 
+                        If GelenData.Substring(7, 1) = "1" Then
+                            Usb1_Role_4_Picture.Image = My.Resources.Connect
+                        Else
+                            Usb1_Role_4_Picture.Image = My.Resources.Disconnect
+                        End If
+
+                    End If
+                End If
             End If
-        End If
+        Catch ex As Exception
 
+        End Try
 
     End Sub
 
@@ -242,6 +274,11 @@ Public Class Usb_IO_Kart
     End Sub
 
     Private Sub Usb_IO_Kart_Yonetim_Formu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+
+
+
+
         Usb_1.VendorId = 1590
         Usb_1.ProductId = 1590
 
@@ -283,7 +320,7 @@ Public Class Usb_IO_Kart
 
 
         If Durum_Sorgula_Check_1.Checked = True Then
-            Dim ByteDize(8) As Byte
+            Dim ByteDize(64) As Byte
             ByteDize(1) = 64 ' 64 Sorgu Komutudur ve ASCII ' Q Harfine Denk Gelir Qestion=Soru
 
             If Usb_1.SpecifiedDevice IsNot Nothing Then
@@ -294,7 +331,7 @@ Public Class Usb_IO_Kart
         End If
 
         If Durum_Sorgula_Check_2.Checked = True Then
-            Dim ByteDize(8) As Byte
+            Dim ByteDize(64) As Byte
             ByteDize(1) = 64 ' 64 Sorgu Komutudur ve ASCII ' Q Harfine Denk Gelir Qestion=Soru
             If Usb_2.SpecifiedDevice IsNot Nothing Then
                 If Usb_2.SpecifiedDevice IsNot Nothing Then
@@ -308,7 +345,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_1_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_1_Tetik_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 10 '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -316,7 +353,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_1_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_1_Cek_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 11                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -324,7 +361,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_1_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_1_Bırak_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                 '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 12                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -332,7 +369,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Input_1_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Input_1_Alındı_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                 '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 51                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -341,7 +378,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_2_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_2_Tetik_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                   '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 20                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -349,7 +386,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_2_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_2_Cek_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                   '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 21                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -357,7 +394,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_2_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_2_Bırak_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 22                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -365,7 +402,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Input_2_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Input_2_Alındı_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 52                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -374,7 +411,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_3_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_3_Tetik_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                   '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 30                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -382,7 +419,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_3_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_3_Cek_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 31                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -390,7 +427,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_3_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_3_Bırak_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                   '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 32                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -398,7 +435,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Input_3_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Input_3_Alındı_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                   '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 53                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -407,7 +444,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_4_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_4_Tetik_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                 '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 40                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -415,7 +452,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_4_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_4_Cek_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 41                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -423,7 +460,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Role_4_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Role_4_Bırak_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                 '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte               '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 42                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -431,7 +468,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb1_Input_4_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb1_Input_4_Alındı_Buton.Click
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 54                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -440,7 +477,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_1_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_1_Tetik_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte               '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 10                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -448,7 +485,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_1_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_1_Cek_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 11                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -456,7 +493,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_1_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_1_Bırak_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 12                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -464,7 +501,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Input_1_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Input_1_Alındı_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 51                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -473,7 +510,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb_Role_2_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb_Role_2_Tetik_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 20                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -481,7 +518,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_2_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_2_Cek_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 21                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -489,7 +526,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_2_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_2_Bırak_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 22                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -497,7 +534,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Input_2_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Input_2_Alındı_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                 '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 52                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -506,7 +543,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_3_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_3_Tetik_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                   '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 30                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -514,7 +551,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_3_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_3_Cek_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 31                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -522,7 +559,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_3_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_3_Bırak_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte               '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 32                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -530,7 +567,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Input_3_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Input_3_Alındı_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 53                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -539,7 +576,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_4_Tetik_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_4_Tetik_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 40                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -547,7 +584,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_4_Cek_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_4_Cek_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                 '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 41                        '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -555,7 +592,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Role_4_Bırak_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Role_4_Bırak_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 42                         '2 Dijit Değer Gönderilir. 1.Dijit Röle Numarasıdır.  2. Dijit ise Röle işlem Tipidir. 0=Tetikleme ,1=Röleyi Süreli Aç ,2=Röleyi Kapat
             Usb_2.SpecifiedDevice.SendData(ByteDize) ' Not : Röle Aç Komutunu Alan Röle Tetikleme Kodu Gönderilse Dahi Tetikleme Yapmaz. Yani Röle Otomatik Olarak Kapanmaz.
         End If
@@ -563,7 +600,7 @@ Public Class Usb_IO_Kart
 
     Private Sub Usb2_Input_4_Alındı_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Input_4_Alındı_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
+            Dim ByteDize(64) As Byte                '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
             ByteDize(1) = 54                         '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
             Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
             '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
@@ -574,40 +611,115 @@ Public Class Usb_IO_Kart
     Private Sub Role_Surelerini_Ayarla_Buton_Click(sender As Object, e As EventArgs) Handles Role_Surelerini_Ayarla_Buton.Click
 
 
+
         If Usb_1.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
-            ByteDize(1) = Asc("R")                        '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Asc("R")
             ByteDize(2) = Asc("T")
             ByteDize(3) = Usb1_Role_1_Suresi_Text.Text
             ByteDize(4) = Usb1_Role_2_Suresi_Text.Text
             ByteDize(5) = Usb1_Role_3_Suresi_Text.Text
             ByteDize(6) = Usb1_Role_4_Suresi_Text.Text
 
-            Usb_1.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
-            '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
         End If
 
-
     End Sub
-
-    Private Sub Durum_Sorgula_Check_1_CheckedChanged(sender As Object, e As EventArgs) Handles Durum_Sorgula_Check_1.CheckedChanged
-
-    End Sub
-
 
 
     Private Sub Usb2_Buton_Role_Ayarla_Buton_Click(sender As Object, e As EventArgs) Handles Usb2_Buton_Role_Ayarla_Buton.Click
         If Usb_2.SpecifiedDevice IsNot Nothing Then
-            Dim ByteDize(8) As Byte                  '8 Bytelık Bir Dize Oluşturulur ve 1.Byte Dizesine  Değer Yazılır.
-            ByteDize(1) = Asc("R")                        '1.Dijit İnput Durum Bildirme Kodudur.  2.Dijit Hangi İnput' a Ait  işlem Yapılacağını Bildirir.
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Asc("R")
             ByteDize(2) = Asc("T")
             ByteDize(3) = Usb2_Role_1_Suresi_Text.Text
             ByteDize(4) = Usb2_Role_2_Suresi_Text.Text
             ByteDize(5) = Usb2_Role_3_Suresi_Text.Text
             ByteDize(6) = Usb2_Role_4_Suresi_Text.Text
 
-            Usb_2.SpecifiedDevice.SendData(ByteDize) 'Not : Bazı Durumlarda Okunan input Bilgisinin Bir Defa Gelmesini İsteriz. Bu Komut Gönderildiğinde İnput 1,2,3,4 Aktif olsa bile Aktif olduğuna dair bilgi Gelmez.
-            '                                         Not 2:İnput Pasif Olup Tekrar Aktif Olduğunda İnput Bilgisi vermeye devam eder..
+            Usb_2.SpecifiedDevice.SendData(ByteDize)
+        End If
+    End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Private Sub Hangi_Cihaz_Buton_Click(sender As Object, e As EventArgs) Handles Hangi_Cihaz_Buton.Click
+        If Usb_1.SpecifiedDevice IsNot Nothing Then
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Cihaz_Komut.CihazTest
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
+
+
+        End If
+    End Sub
+
+    Private Sub Boot_Mode_Buton_Click(sender As Object, e As EventArgs) Handles Boot_Mode_Buton.Click
+        If Usb_1.SpecifiedDevice IsNot Nothing Then
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Cihaz_Komut.DeviceBootMode
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
+            '                                         
+        End If
+    End Sub
+
+    Private Sub Model_Oku_Buton_Click(sender As Object, e As EventArgs) Handles Model_Oku_Buton.Click
+
+        If Usb_1.SpecifiedDevice IsNot Nothing Then
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Cihaz_Komut.ReadDeviceModel
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
+            '                                         
+        End If
+    End Sub
+
+    Private Sub Versiyon_Oku_Buton_Click(sender As Object, e As EventArgs) Handles Versiyon_Oku_Buton.Click
+        If Usb_1.SpecifiedDevice IsNot Nothing Then
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Cihaz_Komut.ReadDeviceFirmware
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
+        End If
+
+    End Sub
+
+    Private Sub Seri_No_Yaz_Buton_Click(sender As Object, e As EventArgs) Handles Seri_No_Yaz_Buton.Click
+        If Usb_1.SpecifiedDevice IsNot Nothing Then
+
+            Dim SerialNo() As Char = Guid.NewGuid.ToString.Replace("-", "").ToString.ToUpper.ToCharArray
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Cihaz_Komut.WriteSerialNo
+            For i = 0 To SerialNo.Count - 1
+                ByteDize(2 + i) = Asc(SerialNo(i))
+            Next
+
+
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
+        End If
+    End Sub
+
+    Private Sub SeriNo_Oku_Buton_Click(sender As Object, e As EventArgs) Handles SeriNo_Oku_Buton.Click
+        If Usb_1.SpecifiedDevice IsNot Nothing Then
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Cihaz_Komut.ReadSerialNo
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
+        End If
+    End Sub
+
+    Private Sub Role_Surelerini_Oku_Buton_Click(sender As Object, e As EventArgs) Handles Role_Surelerini_Oku_Buton.Click
+        If Usb_1.SpecifiedDevice IsNot Nothing Then
+            Dim ByteDize(64) As Byte
+            ByteDize(1) = Asc("T")
+            ByteDize(2) = Asc("R")
+            Usb_1.SpecifiedDevice.SendData(ByteDize)
         End If
     End Sub
 End Class
